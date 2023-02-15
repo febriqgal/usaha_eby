@@ -1,8 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usaha_eby/app/modules/home/controllers/home_controller.dart';
+import 'package:usaha_eby/app/modules/login/views/login_view.dart';
 import 'package:usaha_eby/app/modules/product/views/cheackout.dart';
 import 'package:usaha_eby/app/modules/product/views/review_item.dart';
 import 'package:usaha_eby/theme.dart';
@@ -23,6 +25,8 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     var c = Get.put(HomeController());
     return FutureBuilder(
         future: c.getproduct(Get.arguments),
@@ -40,8 +44,8 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 60),
-                      child: Image.asset(
-                        'assets/original.png',
+                      child: Image.network(
+                        '${data['foto']}',
                       ),
                     ),
                     GestureDetector(
@@ -127,7 +131,7 @@ class _DetailPageState extends State<DetailPage> {
                                             ),
                                           ),
                                           Text(
-                                            'Rp. 15.000',
+                                            'Rp. ${data['harga'].toString()}',
                                             style: blackTextStyle.copyWith(
                                               fontSize: 24,
                                             ),
@@ -138,7 +142,7 @@ class _DetailPageState extends State<DetailPage> {
                                         height: 16,
                                       ),
                                       Text(
-                                        'Original',
+                                        data['varian'],
                                         style: blackTextStyle.copyWith(
                                           fontSize: 18,
                                         ),
@@ -278,8 +282,10 @@ class _DetailPageState extends State<DetailPage> {
                                     height: 56,
                                     child: TextButton(
                                       onPressed: () {
-                                        Get.to(() => const CheckoutView(),
-                                            arguments: snapshot.data?.id);
+                                        user != null
+                                            ? Get.to(() => const CheckoutView(),
+                                                arguments: snapshot.data?.id)
+                                            : Get.to(const LoginView());
                                       },
                                       style: TextButton.styleFrom(
                                         backgroundColor: kBlackColor,

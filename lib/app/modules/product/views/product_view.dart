@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:usaha_eby/app/modules/product/views/product_add.dart';
 import 'package:usaha_eby/app/modules/product/views/product_detail.dart';
-
 import '../../../../theme.dart';
 import '../controllers/product_controller.dart';
 
@@ -20,13 +17,6 @@ class ProductView extends GetView<ProductController> {
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text('ProductView'),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(const ProductAdd());
-              },
-              icon: const Icon(Icons.add))
-        ],
       ),
       body: StreamBuilder<QuerySnapshot?>(
           stream: c.collectionStream,

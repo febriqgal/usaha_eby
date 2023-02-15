@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
-
-import '../../product/controllers/product_controller.dart';
 import '../controllers/admin_controller.dart';
 
 class DetailConfirmOrderView extends GetView<AdminController> {
@@ -28,10 +24,14 @@ class DetailConfirmOrderView extends GetView<AdminController> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        data['harga'].toString(),
+                      const Text(
+                        'BUKTI PEMBAYARAN',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      const Text('BUKTI PEMBAYARAN'),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Image.network(data['foto']),
+                      ),
                       ElevatedButton(
                           onPressed: () async {
                             data['status'] != "Pembayaran diterima"
@@ -39,14 +39,12 @@ class DetailConfirmOrderView extends GetView<AdminController> {
                                     'status': 'Pembayaran diterima'
                                   }).then((value) {
                                     Get.back();
-                                  }).catchError((error) =>
-                                    print("Failed to update user: $error"))
+                                  }).catchError((error) {})
                                 : await order.doc(snapshot.data?.id).update({
                                     'status': 'Pesanan Terkirim'
                                   }).then((value) {
                                     Get.back();
-                                  }).catchError((error) =>
-                                    print("Failed to update user: $error"));
+                                  }).catchError((error) {});
                           },
                           child: Text(data['status'] != "Pembayaran diterima"
                               ? 'Konfirmasi Pembayaran'

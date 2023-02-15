@@ -58,6 +58,28 @@ class CartView extends GetView<CartController> {
                         } else if ((order?[index].data()
                                 as Map<String, dynamic>)['status'] ==
                             'Pembayaran diterima') {
+                        } else if ((order?[index].data()
+                                as Map<String, dynamic>)['status'] ==
+                            'Menunggu Konfirmas Pembayaran') {
+                          Get.snackbar(
+                            '-',
+                            '-',
+                            titleText: const Center(
+                              child: Text(
+                                'Pemberitahuan',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            messageText: const Center(
+                                child: Text(
+                                    'Mohon tunggu... pembayaran akan segera dikonfirmasi!')),
+                            snackStyle: SnackStyle.GROUNDED,
+                            backgroundColor: Colors.white,
+                            barBlur: 0.5,
+                          );
                         } else {
                           Get.to(
                             () => const StatusView(),
@@ -66,28 +88,39 @@ class CartView extends GetView<CartController> {
                         }
                       },
                       child: Card(
-                        child: Row(
-                          children: [
-                            Image.asset(width: 100, 'assets/original.png'),
-                            const SizedBox(
-                              width: 18,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${(order?[index].data() as Map<String, dynamic>)['nama_produk']}',
-                                ),
-                                Text(
-                                  '${(order?[index].data() as Map<String, dynamic>)['harga']}',
-                                ),
-                                Text(
+                        child: ListTile(
+                          leading: Image.asset(
+                            '${(order?[index].data() as Map<String, dynamic>)['foto']}',
+                          ),
+                          title: Text(
+                            '${(order?[index].data() as Map<String, dynamic>)['nama_produk']}',
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${(order?[index].data() as Map<String, dynamic>)['tanggal_beli']}',
+                              ),
+                              Container(
+                                margin: const EdgeInsetsDirectional.only(
+                                    top: 8, bottom: 8),
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 16, vertical: 4),
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: Text(
                                   '${(order?[index].data() as Map<String, dynamic>)['status']}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(color: Colors.white),
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
+                          trailing: Text(
+                            'Rp ${(order?[index].data() as Map<String, dynamic>)['total']}',
+                          ),
                         ),
                       ),
                     );

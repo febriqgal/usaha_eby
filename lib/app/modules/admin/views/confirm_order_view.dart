@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usaha_eby/app/modules/admin/controllers/admin_controller.dart';
 import 'package:usaha_eby/app/modules/admin/views/detail_confirm_order_view.dart';
-import 'package:usaha_eby/app/modules/profile/views/payment_view.dart';
 
 class ConfirmOrderView extends GetView<AdminController> {
   const ConfirmOrderView({Key? key}) : super(key: key);
@@ -53,28 +52,46 @@ class ConfirmOrderView extends GetView<AdminController> {
                               );
                       },
                       child: Card(
-                        child: Row(
-                          children: [
-                            Image.asset(width: 100, 'assets/original.png'),
-                            const SizedBox(
-                              width: 18,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${(order?[index].data() as Map<String, dynamic>)['nama_produk']}',
+                        child: ListTile(
+                          title: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${(order?[index].data() as Map<String, dynamic>)['nama_produk']}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Total: ${(order?[index].data() as Map<String, dynamic>)['harga']}',
+                              ),
+                              Text(
+                                'Jumlah Beli: ${(order?[index].data() as Map<String, dynamic>)['jumlah_beli']}',
+                              ),
+                              Text(
+                                'Ongkir: ${(order?[index].data() as Map<String, dynamic>)['ongkir']}',
+                              ),
+                              Text(
+                                'Total: ${(order?[index].data() as Map<String, dynamic>)['total']}',
+                              ),
+                              Container(
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9),
+                                  color: (order?[index].data() as Map<String,
+                                              dynamic>)['status'] ==
+                                          'Pembayaran diterima'
+                                      ? Colors.green
+                                      : Colors.red,
                                 ),
-                                Text(
-                                  '${(order?[index].data() as Map<String, dynamic>)['harga']}',
+                                child: Text(
+                                  'Status: ${(order?[index].data() as Map<String, dynamic>)['status']}',
+                                  style: const TextStyle(color: Colors.white),
                                 ),
-                                Text(
-                                  '${(order?[index].data() as Map<String, dynamic>)['status']}',
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

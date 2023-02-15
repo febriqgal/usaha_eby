@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'app/routes/app_pages.dart';
@@ -11,8 +12,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-    MyApp(),
+  await initializeDateFormatting('id_ID', null).then(
+    (_) => runApp(
+      MyApp(),
+    ),
   );
 }
 
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             return GetMaterialApp(
               theme: ThemeData(
+                useMaterial3: true,
                 textTheme: GoogleFonts.nunitoTextTheme(),
               ),
               debugShowCheckedModeBanner: false,

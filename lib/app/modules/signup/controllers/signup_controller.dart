@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,8 +7,15 @@ import 'package:usaha_eby/app/modules/login/views/login_view.dart';
 class SignupController extends GetxController {
   TextEditingController emailDaftarC = TextEditingController();
   TextEditingController passDaftarC = TextEditingController();
+  TextEditingController noHpC = TextEditingController();
+  TextEditingController namaC = TextEditingController();
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final user = FirebaseAuth.instance.currentUser;
+
   singup() async {
-    if (emailDaftarC.text.isEmpty || passDaftarC.text.isEmpty) {
+    if (emailDaftarC.text.isEmpty ||
+        passDaftarC.text.isEmpty ||
+        noHpC.text.isEmpty) {
       Get.snackbar(
         '-',
         '-',
@@ -28,12 +36,17 @@ class SignupController extends GetxController {
       );
     }
     try {
-      // ignore: unused_local_variable
-      UserCredential myuser =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailDaftarC.text,
         password: passDaftarC.text,
       );
+
+      await users.doc(emailDaftarC.text).set({
+        'nama': namaC.text,
+        'email': emailDaftarC.text,
+        'no.hp': noHpC.text,
+        'tanggal': DateTime.now(),
+      });
       Get.to(const LoginView());
       Get.snackbar(
         '-',

@@ -6,7 +6,6 @@ import 'package:usaha_eby/app/modules/cart/views/cart_view.dart';
 import 'package:usaha_eby/app/modules/login/views/login_view.dart';
 import 'package:usaha_eby/app/modules/product/views/product_detail.dart';
 import 'package:usaha_eby/app/modules/product/views/product_view.dart';
-import 'package:usaha_eby/app/modules/profile/views/profile_view.dart';
 import 'package:usaha_eby/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../controllers/home_controller.dart';
@@ -17,7 +16,7 @@ class Home extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-
+    final homeC = Get.put(HomeController());
     return Scaffold(
       backgroundColor: kWhiteGreyColor,
       body: Stack(
@@ -33,42 +32,37 @@ class Home extends GetView<HomeController> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                 ),
-                child: GestureDetector(
-                  onTap: () {
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/icon_profile_default.png',
+                      width: 53,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
                     user == null
-                        ? Get.to(() => const LoginView())
-                        : Get.to(() => const ProfileView());
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icon_profile_default.png',
-                        width: 53,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      user == null
-                          ? Container()
-                          : Text(
-                              user.email.toString(),
-                              style: blackTextStyle.copyWith(
-                                fontSize: 20,
-                                fontWeight: bold,
-                              ),
+                        ? Container()
+                        : Text(
+                            user.email.toString(),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 20,
+                              fontWeight: bold,
                             ),
-                      const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(const CartView());
-                        },
-                        child: Image.asset(
-                          'assets/icon_cart.png',
-                          width: 30,
-                        ),
+                          ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        user != null
+                            ? Get.to(const CartView())
+                            : Get.to(const LoginView());
+                      },
+                      child: Image.asset(
+                        'assets/icon_cart.png',
+                        width: 30,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -130,7 +124,7 @@ class Home extends GetView<HomeController> {
 
               // NOTE: POPULAR CAROUSEL
               StreamBuilder<QuerySnapshot?>(
-                  stream: controller.collectionStreamPopular,
+                  stream: homeC.collectionStreamPopular,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.active) {
                       final product = snapshot.data?.docs;
@@ -159,8 +153,10 @@ class Home extends GetView<HomeController> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset(
-                                          width: 120, 'assets/original.png'),
+                                      Image.network(
+                                        width: 120,
+                                        '${(product?[index].data() as Map<String, dynamic>)['foto']}',
+                                      ),
                                       const SizedBox(
                                         width: 18,
                                       ),
@@ -290,7 +286,7 @@ class Home extends GetView<HomeController> {
                       height: 16,
                     ),
                     StreamBuilder<QuerySnapshot?>(
-                        stream: controller.collectionStream,
+                        stream: homeC.collectionStream,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.active) {
@@ -360,9 +356,9 @@ class Home extends GetView<HomeController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Image.asset(
+                                        Image.network(
                                           height: 180,
-                                          'assets/original.png',
+                                          '${(product?[index].data() as Map<String, dynamic>)['foto']}',
                                         ),
                                         ListTile(
                                           title: Row(

@@ -62,15 +62,21 @@ class _ProfileViewState extends State<ProfileView> {
                           const SizedBox(
                             height: 32,
                           ),
+                          Text(
+                            '${user?.displayName}',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 24,
+                              fontWeight: medium,
+                              color: kBlackColor,
+                            ),
+                          ),
                           user == null
                               ? Container()
                               : Text(
                                   user!.email.toString(),
                                   style: blackTextStyle.copyWith(
-                                    fontSize: 24,
                                     fontWeight: medium,
-                                    color:
-                                        isLightMode ? kBlackColor : kWhiteColor,
+                                    color: kBlackColor,
                                   ),
                                 ),
                         ],
@@ -102,15 +108,17 @@ class _ProfileViewState extends State<ProfileView> {
                         color: kWhiteColor),
                     child: Column(
                       children: [
-                        ListTile(
-                          onTap: () {
-                            Get.to(const AdminView());
-                          },
-                          leading:
-                              Image.asset(width: 24, 'assets/icon_profile.png'),
-                          trailing: const Icon(Icons.chevron_right),
-                          title: const Text('Dashboard Admin'),
-                        ),
+                        user?.email == 'admin@gmail.com'
+                            ? ListTile(
+                                onTap: () {
+                                  Get.to(const AdminView());
+                                },
+                                leading: Image.asset(
+                                    width: 24, 'assets/icon_profile.png'),
+                                trailing: const Icon(Icons.chevron_right),
+                                title: const Text('Dashboard Admin'),
+                              )
+                            : Container(),
                         ListTile(
                           onTap: () {
                             Get.to(const EditProfileView());
