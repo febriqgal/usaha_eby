@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "703007034673",
+    "project_id": "usaha-eby",
+    "storage_bucket": "usaha-eby.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703007034673:android:4e3fb61c7f43d216efb410",
+        "android_client_info": {
+          "package_name": "com.example.usaha_eby"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703007034673-1o8lkj13afgkrvi0bkhm73dl9m0ifocr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.usaha_eby",
+            "certificate_hash": "c57debe2bbd7e81657caf207406b735d1065e16f"
+          }
+        },
+        {
+          "client_id": "703007034673-j6gslii75mb44la84p5i5tbtcgtain3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE64aVPehq8tEGehWvvUjTbJhKGMgSNAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703007034673-j6gslii75mb44la84p5i5tbtcgtain3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
